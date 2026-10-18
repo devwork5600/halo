@@ -85,9 +85,11 @@ class GlassesConfigurator {
   private dragging: { x: number; y: number; ry: number; rx: number } | null = null;
   private raf = 0;
   private running = false;
+  private baseDistance: number;
 
-  constructor(host: HTMLElement) {
+  constructor(host: HTMLElement, cameraDistance = 4.2) {
     this.host = host;
+    this.baseDistance = cameraDistance;
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -98,7 +100,7 @@ class GlassesConfigurator {
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(28, 1, 0.1, 50);
-    this.camera.position.set(0, 0.15, 4.2);
+    this.camera.position.set(0, 0.15, this.baseDistance);
     this.camera.lookAt(0, 0, 0);
 
     this.setupLighting();
@@ -215,7 +217,7 @@ class GlassesConfigurator {
     if (!w || !h) return;
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
-    this.camera.position.z = w / h < 1 ? (4.2 / (w / h)) * 0.9 : 4.2;
+    this.camera.position.z = w / h < 1 ? ((this.baseDistance / (w / h)) * 0.9) : this.baseDistance;
     this.camera.updateProjectionMatrix();
   }
 
@@ -596,11 +598,18 @@ function initSmoothScroll() {
 
 // Même modèle que le configurateur, figé sur une combinaison fixe (test :
 // remplace le blob CSS du hero par la vraie paire de lunettes).
+//
+// La monture tourne lentement au repos (auto-rotate) : vue de 3/4, sa largeur
+// apparente dépasse sa largeur au repos car les branches (qui s'étendent en
+// profondeur à peu près autant que la monture en largeur) basculent dans le
+// champ de la caméra. À l'échelle agrandie demandée ici, ça dépassait le
+// cadre à certains angles — recule la caméra (sans changer l'échelle de la
+// géométrie) pour garder de la marge pendant la rotation.
 async function initHeroGlasses() {
   const host = document.getElementById("heroGlassesHost");
   if (!host) return;
 
-  const hero = new GlassesConfigurator(host);
+  const hero = new GlassesConfigurator(host, 5.6);
   const io = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -612,7 +621,7 @@ async function initHeroGlasses() {
   );
   io.observe(host);
 
-  await hero.load(1.5);
+  await hero.load(2);
   hero.applyMaterials("terre", "poli", "bleu");
 }
 
