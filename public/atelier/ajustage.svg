@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<defs><radialGradient id="g" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#eab08c"/><stop offset="1" stop-color="#b25f3e"/></radialGradient></defs>
+<circle cx="100" cy="100" r="54" fill="none" stroke="#b25f3e" stroke-opacity=".18"/>
+<circle cx="100" cy="100" r="76" fill="none" stroke="#b25f3e" stroke-opacity=".1"/>
+
+<circle cx="100" cy="100" r="18" fill="none" stroke="#b25f3e" stroke-width="1" opacity="0">
+  <animate attributeName="r" values="18;54" dur="4.5s" begin="0s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values=".55;0" dur="4.5s" begin="0s" repeatCount="indefinite"/>
+</circle>
+<circle cx="100" cy="100" r="18" fill="none" stroke="#b25f3e" stroke-width="1" opacity="0">
+  <animate attributeName="r" values="18;54" dur="4.5s" begin="1.5s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values=".55;0" dur="4.5s" begin="1.5s" repeatCount="indefinite"/>
+</circle>
+<circle cx="100" cy="100" r="18" fill="none" stroke="#b25f3e" stroke-width="1" opacity="0">
+  <animate attributeName="r" values="18;54" dur="4.5s" begin="3s" repeatCount="indefinite"/>
+  <animate attributeName="opacity" values=".55;0" dur="4.5s" begin="3s" repeatCount="indefinite"/>
+</circle>
+
+<line x1="24" y1="100" x2="176" y2="100" stroke="#2b2723" stroke-opacity=".12"/>
+<g>
+  <circle cx="38" cy="100" r="6" fill="none" stroke="#2b2723" stroke-opacity=".55"/>
+  <animateTransform attributeName="transform" type="translate" values="0,0;8,0;0,0" dur="3s" repeatCount="indefinite"/>
+</g>
+<g>
+  <circle cx="162" cy="100" r="6" fill="none" stroke="#2b2723" stroke-opacity=".55"/>
+  <animateTransform attributeName="transform" type="translate" values="0,0;-8,0;0,0" dur="3s" repeatCount="indefinite"/>
+</g>
+
+<circle cx="100" cy="100" r="16" fill="url(#g)">
+  <animate attributeName="r" values="16;17.5;16" dur="3s" repeatCount="indefinite"/>
+</circle>
+</svg>

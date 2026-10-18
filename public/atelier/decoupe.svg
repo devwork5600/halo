@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<defs>
+<linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d49664"/><stop offset="1" stop-color="#965a32"/></linearGradient>
+<linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0d4c2"/><stop offset="1" stop-color="#c8967e"/></linearGradient>
+<clipPath id="c"><rect x="68" y="58" width="92" height="92" rx="22"/></clipPath>
+</defs>
+
+<g opacity=".85">
+  <rect x="40" y="52" width="92" height="92" rx="22" fill="url(#a)"/>
+  <path id="decoupe-outline" d="M60,40 H112 A32,32 0 0 1 144,72 V124 A32,32 0 0 1 112,156 H60 A32,32 0 0 1 28,124 V72 A32,32 0 0 1 60,40 Z" fill="none" stroke="#b25f3e" stroke-opacity=".25" stroke-dasharray="1.5 4"/>
+  <g>
+    <circle r="8" fill="#b25f3e" opacity=".2"/>
+    <circle r="3" fill="#b25f3e"/>
+    <animateMotion dur="6s" repeatCount="indefinite" path="M60,40 H112 A32,32 0 0 1 144,72 V124 A32,32 0 0 1 112,156 H60 A32,32 0 0 1 28,124 V72 A32,32 0 0 1 60,40 Z"/>
+  </g>
+  <animateTransform attributeName="transform" type="rotate" values="-2 86 98;2 86 98;-2 86 98" dur="8s" repeatCount="indefinite"/>
+</g>
+
+<g style="mix-blend-mode:multiply">
+  <rect x="68" y="58" width="92" height="92" rx="22" fill="url(#b)" opacity=".85"/>
+  <g clip-path="url(#c)">
+    <rect x="-40" y="40" width="22" height="140" fill="#fff" opacity=".55" transform="skewX(-22)">
+      <animate attributeName="x" values="-40;140;-40" dur="5s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+  <animateTransform attributeName="transform" type="rotate" values="1.5 114 104;-1.5 114 104;1.5 114 104" dur="9s" repeatCount="indefinite"/>
+</g>
+
+<circle cx="102" cy="102" r="20" fill="#f6f0e7"/>
+<circle cx="102" cy="102" r="20" fill="none" stroke="#965a32" stroke-opacity=".2"/>
+</svg>

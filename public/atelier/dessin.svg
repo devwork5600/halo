@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<line x1="22" y1="100" x2="178" y2="100" stroke="#2b2723" stroke-opacity=".16"/>
+<line x1="100" y1="22" x2="100" y2="178" stroke="#2b2723" stroke-opacity=".16"/>
+<g>
+  <circle cx="100" cy="100" r="58" fill="none" stroke="#2b2723" stroke-opacity=".32" stroke-dasharray="1.5 5"/>
+  <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="48s" repeatCount="indefinite"/>
+</g>
+<g stroke="#2b2723" stroke-opacity=".3">
+  <line x1="60" y1="94" x2="60" y2="106"/>
+  <line x1="140" y1="94" x2="140" y2="106"/>
+</g>
+<circle id="dessin-trace" cx="100" cy="100" r="40" fill="none" stroke="#b25f3e" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="251.3" transform="rotate(-90 100 100)">
+  <animate attributeName="stroke-dashoffset" values="251.3;-251.3" dur="7s" repeatCount="indefinite"/>
+</circle>
+<g>
+  <circle r="10" fill="#b25f3e" opacity=".18"/>
+  <circle r="3.6" fill="#b25f3e"/>
+  <animateMotion dur="7s" repeatCount="indefinite" path="M100,60 A40,40 0 1 1 99.99,60"/>
+</g>
+<text x="100" y="170" text-anchor="middle" font-family="ui-monospace,monospace" font-size="7" letter-spacing="1.2" fill="#6f675e" opacity="0">
+  48 □ 20
+  <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.3;0.55;0.85;1" dur="7s" repeatCount="indefinite"/>
+</text>
+</svg>

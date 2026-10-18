@@ -1,0 +1,133 @@
+:root {
+  --bg: #f7f3ec;
+  --bg-alt: #fbf8f3;
+  --ink: #2b2723;
+  --text-2: #5e574f;
+  --text-3: #6f675e;
+  --text-4: #8a8177;
+  --line: #e6dfd4;
+  --line-2: #ece5da;
+  --line-btn: #d8cfc2;
+  --line-btn-2: #ddd4c7;
+  --accent: #b25f3e;
+  --accent-light: #d98a66;
+  --accent-lighter: #eab08c;
+  --surface-0: #fffdf9;
+  --surface-1: #f4ede3;
+  --surface-2: #eee5d8;
+  --surface-3: #f3ebe0;
+  --surface-4: #ede3d6;
+  --surface-5: #efe6da;
+  --panel-blue: #2f4a5a;
+
+  --font-serif: "Instrument Serif", serif;
+  --font-sans: "DM Sans", sans-serif;
+  --font-mono: "DM Mono", monospace;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  overflow-x: hidden;
+  position: relative;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--accent);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+input[type="range"] {
+  accent-color: var(--accent);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+@keyframes haloBreath {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+@keyframes amb1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(18vw, 12vh) scale(1.15);
+  }
+}
+@keyframes amb2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1.1);
+  }
+  50% {
+    transform: translate(-22vw, -8vh) scale(0.95);
+  }
+}
+@keyframes amb3 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-12vw, 16vh) scale(1.2);
+  }
+}
+@keyframes amb4 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(0.9);
+  }
+  50% {
+    transform: translate(14vw, -14vh) scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

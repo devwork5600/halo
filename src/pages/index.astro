@@ -1,0 +1,1530 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const colors = [
+  { id: "miel", label: "Écaille miel", swatch: "radial-gradient(circle at 35% 30%, #d9a066, #8a5226)", active: true },
+  { id: "encre", label: "Encre", swatch: "radial-gradient(circle at 35% 30%, #57504a, #1e1b18)" },
+  { id: "sauge", label: "Sauge", swatch: "radial-gradient(circle at 35% 30%, #b3bda5, #6f7b62)" },
+  { id: "terre", label: "Terre cuite", swatch: "radial-gradient(circle at 35% 30%, #d68466, #8f4329)" },
+  { id: "cristal", label: "Cristal rosé", swatch: "radial-gradient(circle at 35% 30%, #fff7f1, #e2c3b1)" },
+];
+
+const materials = [
+  { id: "poli", label: "Acétate poli", sub: "Brillant, chaleureux", active: true },
+  { id: "mat", label: "Acétate mat", sub: "Toucher velours" },
+  { id: "titane", label: "Titane", sub: "Léger, brossé" },
+];
+
+const lenses = [
+  { id: "clair", label: "Clair", sub: "Inclus", swatch: "#fbfaf7", active: true },
+  { id: "ambre", label: "Ambre doux", sub: "+ 60 €", swatch: "#e2b07a" },
+  { id: "fume", label: "Gris fumé", sub: "+ 60 €", swatch: "#7a746e" },
+  { id: "bleu", label: "Lumière bleue", sub: "+ 40 €", swatch: "linear-gradient(135deg, #f7efd6, #c9dbe6)" },
+];
+
+const eyes = [
+  { id: "od", label: "Œil droit", code: "OD" },
+  { id: "og", label: "Œil gauche", code: "OG" },
+];
+---
+
+<Layout title="Halo — Maison d'optique">
+  <div class="page-root">
+    <div class="ambient-bg" aria-hidden="true">
+      <div class="ambient-blob ambient-blob--1"></div>
+      <div class="ambient-blob ambient-blob--2"></div>
+      <div class="ambient-blob ambient-blob--3"></div>
+      <div class="ambient-blob ambient-blob--4"></div>
+    </div>
+
+    <!-- NAV -->
+    <header class="nav">
+    <nav class="nav-inner">
+      <a href="#top" class="logo">
+        <span class="logo-dot"></span>
+        <span class="logo-word">Halo</span>
+      </a>
+      <div class="nav-links">
+        <a href="#montures">Montures</a>
+        <a href="#verres">Verres &amp; vision</a>
+        <a href="#atelier">L'atelier</a>
+        <a href="#boutique" class="accent">Rendez-vous</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="top" class="hero">
+    <div class="hero-left">
+      <div class="eyebrow-mono">Maison d'optique — Paris, depuis 1962</div>
+      <h1 class="hero-h1">Voir clair, <em>en douceur.</em></h1>
+      <p class="hero-p">
+        Des montures façonnées à la main dans notre atelier du Marais, des verres taillés à votre regard. Une maison
+        où l'on prend le temps de bien voir.
+      </p>
+      <div class="hero-ctas">
+        <a href="#montures" class="btn btn-solid">Composer ma monture</a>
+        <a href="#verres" class="btn btn-ghost">Essayer nos verres</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-halo"></div>
+      <div class="hero-ring hero-ring--outer"></div>
+      <div class="hero-ring hero-ring--inner"></div>
+      <div id="heroGlassesHost" class="hero-glasses-host"></div>
+      <div class="hero-card">
+        <span class="hero-card-label">Nouveau</span>
+        <span class="hero-card-name">Iris, terre cuite</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="bandeau">
+    <div class="bandeau-inner">
+      <span>Acétate découpé à la main, Jura</span>
+      <span class="accent">·</span>
+      <span>Verres taillés sur ordonnance</span>
+      <span class="accent">·</span>
+      <span>Ajustage offert, à vie</span>
+    </div>
+  </div>
+
+  <!-- CONFIGURATEUR -->
+  <section id="montures" class="section">
+    <div class="section-head">
+      <div class="section-head-left">
+        <div class="eyebrow-mono accent">01 — Montures sur mesure</div>
+        <h2 class="h2">Composez la vôtre, <em>sous toutes ses lumières.</em></h2>
+      </div>
+      <p class="section-head-note">
+        Teinte, matière, verre : chaque choix se reflète en direct. Faites pivoter la monture du bout des doigts.
+      </p>
+    </div>
+
+    <div class="configurator">
+      <div class="viewer">
+        <div class="viewer-ring"></div>
+        <div class="viewer-glow"></div>
+        <div class="viewer-shadow"></div>
+        <div id="glassesHost" class="viewer-host"></div>
+        <div class="viewer-label">Vue 360° · glisser pour tourner</div>
+        <div class="viewer-foot">
+          <span id="modelName" class="viewer-model-name">Iris</span>
+          <span id="modelRef" class="viewer-model-ref">RONDE · 48□20 · 145</span>
+        </div>
+      </div>
+
+      <div class="options">
+        <div class="opt-group">
+          <div class="opt-label-row">
+            <span class="opt-label">Teinte</span>
+            <span id="colorLabel" class="opt-label-value">Écaille miel</span>
+          </div>
+          <div class="swatch-row">
+            {
+              colors.map((c) => (
+                <button
+                  type="button"
+                  class="swatch"
+                  data-color={c.id}
+                  data-active={c.active ? "true" : "false"}
+                  title={c.label}
+                  style={`background:${c.swatch}`}
+                />
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="opt-group">
+          <div class="opt-label">Matière</div>
+          <div class="opt-grid">
+            {
+              materials.map((m) => (
+                <button type="button" class="opt-card" data-material={m.id} data-active={m.active ? "true" : "false"}>
+                  <span class="opt-card-label">{m.label}</span>
+                  <span class="opt-card-sub">{m.sub}</span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="opt-group">
+          <div class="opt-label">Verres</div>
+          <div class="opt-grid">
+            {
+              lenses.map((l) => (
+                <button type="button" class="opt-card opt-card--lens" data-lens={l.id} data-active={l.active ? "true" : "false"}>
+                  <span class="lens-swatch" style={`background:${l.swatch}`} />
+                  <span class="opt-card-text">
+                    <span class="opt-card-label">{l.label}</span>
+                    <span class="opt-card-sub">{l.sub}</span>
+                  </span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="opt-summary">
+          <div class="opt-summary-text">
+            <span id="configSummary" class="summary-line">Iris · Écaille miel · Acétate poli · verres clair</span>
+            <span id="configPrice" class="summary-price">390 €</span>
+          </div>
+          <a href="#boutique" class="btn btn-accent">Réserver un essai</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERRES & VISION -->
+  <section id="verres" class="section section--alt">
+    <div class="section-head">
+      <div class="section-head-left">
+        <div class="eyebrow-mono accent">02 — Verres &amp; vision</div>
+        <h2 class="h2">Trouvez votre netteté, <em>un œil après l'autre.</em></h2>
+      </div>
+      <div class="vision-intro">
+        <p class="section-head-note">
+          Comme dans le fauteuil de l'opticien : réglez chaque verre jusqu'à ce que la scène se pose. La correction
+          est cachée — à vous de la trouver.
+        </p>
+        <div class="vision-actions">
+          <button type="button" id="revealBtn" class="btn btn-solid btn-small">Révéler la correction</button>
+          <button type="button" id="resetBtn" class="btn btn-ghost btn-small">Réinitialiser</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="eyes-grid">
+      {
+        eyes.map((eye) => (
+          <div class="eye-col">
+            <div class="eye-ring">
+              <div class="eye-scene">
+                <div class="eye-plane eye-plane--far" data-plane="far" data-eye={eye.id}>
+                  <div class="street-window">
+                    <div class="street-a" />
+                    <div class="street-b" />
+                    <div class="street-c" />
+                    <div class="street-sign">RUE DES LUNETIERS</div>
+                  </div>
+                  <div class="eye-chart">
+                    <span>Z</span>
+                    <span>U F</span>
+                    <span>N C X</span>
+                    <span>T Z U D</span>
+                    <span>E N P O Z</span>
+                    <span>D U X N C T</span>
+                  </div>
+                </div>
+                <div class="eye-plane eye-plane--mid" data-plane="mid" data-eye={eye.id}>
+                  <div class="shelf" />
+                  <div class="shelf-books">
+                    <span class="book book-a" /><span class="book book-b" /><span class="book book-c" /><span class="book book-d" />
+                  </div>
+                  <div class="shelf-vase" />
+                  <div class="shelf-sphere" />
+                  <div class="shelf-tag">N° 07</div>
+                </div>
+                <div class="eye-plane eye-plane--near" data-plane="near" data-eye={eye.id}>
+                  <div class="reading-card">
+                    <span class="reading-label">CARTE DE LECTURE</span>
+                    <span class="reading-text">La lumière se pose sur la page, et chaque lettre retrouve sa place.</span>
+                  </div>
+                </div>
+                <div class="eye-vignette" />
+              </div>
+              <div class="eye-badge">{eye.code}</div>
+            </div>
+
+            <div class="eye-controls">
+              <div class="eye-controls-head">
+                <span class="eye-name">{eye.label}</span>
+                <span id={`eyeValue-${eye.id}`} class="eye-value">±0,00 δ</span>
+              </div>
+              <input
+                type="range"
+                min="-4"
+                max="2"
+                step="0.25"
+                value="0"
+                id={`eyeSlider-${eye.id}`}
+                class="eye-slider"
+              />
+              <div class="eye-scale">
+                <span>−4,00</span><span>0</span><span>+2,00</span>
+              </div>
+              <div class="eye-sharpness-row">
+                <div class="eye-sharpness-track">
+                  <div id={`eyeBar-${eye.id}`} class="eye-sharpness-fill" style="width: 46%" />
+                </div>
+                <span id={`eyeText-${eye.id}`} class="eye-sharpness-text">Netteté 46 %</span>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="progressive">
+      <div class="progressive-text">
+        <div class="eyebrow-mono accent">Le verre progressif</div>
+        <h3 class="h3">Un seul verre, <em>trois distances.</em></h3>
+        <p class="section-head-note">
+          Le regard glisse du lointain à la lecture, sans couture. Les bords restent volontairement doux : c'est là
+          que le verre se fait oublier.
+        </p>
+        <p class="hint-mono">Survolez la scène pour déplacer le verre.</p>
+      </div>
+      <div id="progLens" class="progressive-scene">
+        <div class="prog-layer prog-layer--blur">
+          <div class="prog-street-sign">QUAI DE LA TOURNELLE &nbsp;→&nbsp; 400 M</div>
+          <div class="prog-shops">
+            <span>BOULANGERIE</span><span>PHARMACIE</span><span>LIBRAIRIE</span><span>CAFÉ</span>
+          </div>
+          <div class="prog-clock">
+            <span>MARDI 18 OCTOBRE</span>
+            <span class="prog-clock-time">14 h 32 — atelier</span>
+          </div>
+          <div class="prog-book">
+            <span>Chapitre III</span>
+            <span class="prog-book-text">
+              Elle posa ses lunettes sur la table, et la ville entière revint lentement, rue après rue, comme un
+              paysage qu'on développe.
+            </span>
+          </div>
+        </div>
+        <div id="progLayerSharp" class="prog-layer prog-layer--sharp">
+          <div class="prog-street-sign">QUAI DE LA TOURNELLE &nbsp;→&nbsp; 400 M</div>
+          <div class="prog-shops">
+            <span>BOULANGERIE</span><span>PHARMACIE</span><span>LIBRAIRIE</span><span>CAFÉ</span>
+          </div>
+          <div class="prog-clock">
+            <span>MARDI 18 OCTOBRE</span>
+            <span class="prog-clock-time">14 h 32 — atelier</span>
+          </div>
+          <div class="prog-book">
+            <span>Chapitre III</span>
+            <span class="prog-book-text">
+              Elle posa ses lunettes sur la table, et la ville entière revint lentement, rue après rue, comme un
+              paysage qu'on développe.
+            </span>
+          </div>
+        </div>
+        <div id="lensCircle" class="prog-lens-circle"></div>
+        <div class="prog-labels">
+          <span>Loin</span><span>Intermédiaire</span><span>Près</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ATELIER -->
+  <section id="atelier" class="section">
+    <div class="section-head">
+      <div class="section-head-left">
+        <div class="eyebrow-mono accent">03 — L'atelier</div>
+        <h2 class="h2">Trois gestes, <em>une seule paire.</em></h2>
+      </div>
+      <p class="section-head-note">
+        Chaque monture Halo passe entre les mains d'un même artisan, du premier trait au dernier réglage sur votre
+        visage.
+      </p>
+    </div>
+
+    <div class="atelier-grid">
+      <article class="atelier-item">
+        <div class="atelier-medal">
+          <img src="/atelier/dessin.svg" alt="Dessin : tracé du calibre" />
+        </div>
+        <div class="atelier-text">
+          <span class="eyebrow-mono accent">I — Le dessin</span>
+          <span class="h3">Tracer à votre mesure</span>
+          <p class="section-head-note">
+            On relève l'écart de vos pupilles, la hauteur de vos pommettes, la largeur de votre nez. La forme naît
+            de ces mesures, pas d'un catalogue.
+          </p>
+        </div>
+      </article>
+      <article class="atelier-item">
+        <div class="atelier-medal">
+          <img src="/atelier/decoupe.svg" alt="Découpe : plaques d'acétate" />
+        </div>
+        <div class="atelier-text">
+          <span class="eyebrow-mono accent">II — La découpe</span>
+          <span class="h3">Libérer l'acétate</span>
+          <p class="section-head-note">
+            La plaque, coupée dans le Jura, est fraisée, limée puis polie au tonneau pendant plusieurs jours,
+            jusqu'à prendre un éclat de galet.
+          </p>
+        </div>
+      </article>
+      <article class="atelier-item">
+        <div class="atelier-medal">
+          <img src="/atelier/ajustage.svg" alt="Ajustage : centrage des verres" />
+        </div>
+        <div class="atelier-text">
+          <span class="eyebrow-mono accent">III — L'ajustage</span>
+          <span class="h3">Poser la lumière juste</span>
+          <p class="section-head-note">
+            Les verres sont centrés sur vos pupilles, puis la monture est chauffée et ajustée à votre visage. Vous
+            revenez quand vous voulez, ce réglage est offert à vie.
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- BOUTIQUE / FOOTER -->
+  <footer id="boutique" class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <h2 class="footer-h2">Venez <em class="accent">voir.</em></h2>
+        <div class="footer-info">
+          <p class="section-head-note">14 rue de Turenne, Paris 3<sup>e</sup><br />Du mardi au samedi, 10 h – 19 h</p>
+          <a href="#boutique" class="btn btn-solid">Prendre rendez-vous</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Halo — Maison d'optique</span>
+        <span>Atelier · Morez, Jura</span>
+        <span>
+          Modèle 3D « Glasses 08 » par <a href="https://sketchfab.com/JunkWren" target="_blank" rel="noopener noreferrer">Dokono Kinokoda</a>,
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>
+        </span>
+        <span>© 2026</span>
+      </div>
+    </div>
+  </footer>
+  </div>
+
+  <script>
+    import { initExperience } from "../scripts/experience";
+    initExperience();
+  </script>
+
+  <style is:global>
+    .page-root {
+      position: relative;
+      isolation: isolate;
+      background: var(--bg);
+    }
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .ambient-blob {
+      position: absolute;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      filter: blur(30px);
+      will-change: transform;
+    }
+    .ambient-blob--1 {
+      left: -10vw;
+      top: -15vh;
+      width: 60vw;
+      background: radial-gradient(circle, rgba(255, 236, 214, 0.9) 0%, rgba(247, 243, 236, 0) 68%);
+      animation: amb1 38s ease-in-out infinite;
+    }
+    .ambient-blob--2 {
+      left: 55vw;
+      top: 5vh;
+      width: 50vw;
+      background: radial-gradient(circle, rgba(244, 200, 170, 0.7) 0%, rgba(247, 243, 236, 0) 68%);
+      animation: amb2 46s ease-in-out infinite;
+    }
+    .ambient-blob--3 {
+      left: 20vw;
+      top: 55vh;
+      width: 55vw;
+      background: radial-gradient(circle, rgba(255, 248, 238, 0.95) 0%, rgba(247, 243, 236, 0) 68%);
+      animation: amb3 52s ease-in-out infinite;
+    }
+    .ambient-blob--4 {
+      left: 70vw;
+      top: 60vh;
+      width: 38vw;
+      background: radial-gradient(circle, rgba(214, 150, 115, 0.32) 0%, rgba(247, 243, 236, 0) 68%);
+      animation: amb4 42s ease-in-out infinite;
+    }
+
+    .accent {
+      color: var(--accent);
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(247, 243, 236, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .nav-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 20px clamp(20px, 5vw, 64px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent);
+      box-shadow: 0 0 18px 4px rgba(178, 95, 62, 0.18);
+      display: block;
+    }
+    .logo-word {
+      font-family: var(--font-serif);
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+    }
+    .nav-links {
+      display: flex;
+      gap: clamp(18px, 3vw, 40px);
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      flex-wrap: wrap;
+    }
+
+    .eyebrow-mono {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .h2 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(40px, 5.4vw, 76px);
+      line-height: 1;
+      letter-spacing: -0.015em;
+      text-wrap: balance;
+    }
+    .h3 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(32px, 3vw, 42px);
+      line-height: 1;
+    }
+
+    .hero {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: clamp(48px, 8vw, 110px) clamp(20px, 5vw, 64px) clamp(80px, 10vw, 140px);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+      gap: clamp(48px, 6vw, 96px);
+      align-items: center;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .hero-h1 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(56px, 8.4vw, 124px);
+      line-height: 0.94;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+    .hero-h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-p {
+      margin: 0;
+      max-width: 440px;
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--text-2);
+      text-wrap: pretty;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding-top: 8px;
+    }
+
+    .btn {
+      padding: 16px 28px;
+      border-radius: 999px;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .btn-small {
+      padding: 11px 20px;
+      font-size: 14px;
+      border-radius: 999px;
+    }
+    .btn-solid {
+      background: var(--ink);
+      color: var(--bg);
+      border: 1px solid var(--ink);
+      box-shadow: 0 18px 40px -18px rgba(43, 39, 35, 0.45);
+    }
+    .btn-solid:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .btn-ghost {
+      border: 1px solid var(--line-btn);
+      color: var(--ink);
+      background: transparent;
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .btn-accent {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 20px 40px -18px rgba(178, 95, 62, 0.6);
+    }
+    .btn-accent:hover {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .hero-right {
+      position: relative;
+      width: 100%;
+      max-width: 580px;
+      aspect-ratio: 1;
+      justify-self: center;
+    }
+    .hero-halo {
+      position: absolute;
+      inset: -12%;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 251, 244, 1) 0%, rgba(241, 212, 186, 0.55) 38%, rgba(247, 243, 236, 0) 70%);
+      animation: haloBreath 10s ease-in-out infinite;
+    }
+    .hero-ring {
+      position: absolute;
+      border-radius: 50%;
+    }
+    .hero-ring--outer {
+      inset: 0;
+      border: 1px solid rgba(178, 95, 62, 0.18);
+    }
+    .hero-ring--inner {
+      inset: 7%;
+      border: 1px solid rgba(43, 39, 35, 0.07);
+    }
+    .hero-glasses-host {
+      position: absolute;
+      inset: 8%;
+      cursor: grab;
+    }
+    .hero-card {
+      position: absolute;
+      right: 2%;
+      bottom: 12%;
+      padding: 14px 18px;
+      border-radius: 18px;
+      background: rgba(251, 248, 243, 0.9);
+      box-shadow: 0 24px 60px -24px rgba(120, 80, 40, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hero-card-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .hero-card-name {
+      font-family: var(--font-serif);
+      font-size: 22px;
+    }
+
+    .bandeau {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .bandeau-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 26px clamp(20px, 5vw, 64px);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px 40px;
+      flex-wrap: wrap;
+      font-family: var(--font-serif);
+      font-size: 21px;
+      color: var(--text-2);
+    }
+
+    .section {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: clamp(90px, 12vw, 160px) clamp(20px, 5vw, 64px);
+    }
+    .section--alt {
+      max-width: none;
+      border-top: 1px solid var(--line-2);
+      padding: 0;
+    }
+    .section--alt > * {
+      max-width: 1320px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: clamp(20px, 5vw, 64px);
+      padding-right: clamp(20px, 5vw, 64px);
+    }
+    .section--alt {
+      padding-top: clamp(90px, 12vw, 160px);
+      padding-bottom: clamp(90px, 12vw, 160px);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: clamp(40px, 5vw, 64px);
+    }
+    .section-head-left {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 760px;
+    }
+    .section-head-note {
+      margin: 0;
+      max-width: 340px;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text-2);
+    }
+    .vision-intro {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-width: 360px;
+    }
+    .vision-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .configurator {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+      gap: clamp(28px, 4vw, 56px);
+      align-items: stretch;
+    }
+    .viewer {
+      position: relative;
+      border-radius: 36px;
+      background: radial-gradient(ellipse 70% 60% at 50% 42%, #fffdf9 0%, var(--surface-1) 60%, var(--surface-2) 100%);
+      min-height: clamp(380px, 46vw, 600px);
+      overflow: hidden;
+      box-shadow: 0 60px 120px -60px rgba(140, 90, 50, 0.35);
+    }
+    .viewer-ring {
+      position: absolute;
+      left: 50%;
+      top: 44%;
+      width: 70%;
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px solid rgba(178, 95, 62, 0.14);
+    }
+    .viewer-glow {
+      position: absolute;
+      left: 50%;
+      top: 44%;
+      width: 48%;
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 70%);
+    }
+    .viewer-shadow {
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      bottom: 17%;
+      height: 34px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(110, 75, 45, 0.22), rgba(110, 75, 45, 0) 70%);
+      filter: blur(6px);
+    }
+    .viewer-host {
+      position: absolute;
+      inset: 0;
+      cursor: grab;
+    }
+    .viewer-label {
+      position: absolute;
+      left: 28px;
+      top: 24px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      pointer-events: none;
+    }
+    .viewer-foot {
+      position: absolute;
+      left: 28px;
+      bottom: 24px;
+      right: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      pointer-events: none;
+    }
+    .viewer-model-name {
+      font-family: var(--font-serif);
+      font-size: clamp(34px, 4vw, 52px);
+      line-height: 1;
+    }
+    .viewer-model-ref {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--text-3);
+      text-align: right;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+      padding: 8px 0;
+    }
+    .opt-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .opt-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .opt-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .opt-label-value {
+      color: var(--ink);
+    }
+    .opt-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .opt-pill {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      cursor: pointer;
+      border: 1px solid var(--line-btn-2);
+      background: transparent;
+      color: var(--ink);
+      transition: all 0.25s;
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+    }
+    .opt-pill[data-active="true"] {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+    }
+    .opt-pill-name {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 15px;
+      opacity: 0.75;
+    }
+    .swatch-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 4px;
+    }
+    .swatch {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 0 1px rgba(43, 39, 35, 0.14), 0 8px 18px -8px rgba(110, 70, 40, 0.4);
+      transition: box-shadow 0.25s;
+    }
+    .swatch[data-active="true"] {
+      box-shadow: 0 0 0 3px var(--bg), 0 0 0 4.5px var(--accent);
+    }
+    .opt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+    .opt-card {
+      text-align: left;
+      font-family: var(--font-sans);
+      padding: 14px 16px;
+      border-radius: 18px;
+      cursor: pointer;
+      border: 1px solid var(--line-btn-2);
+      background: transparent;
+      color: var(--ink);
+      transition: all 0.25s;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .opt-card[data-active="true"] {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+    }
+    .opt-card--lens {
+      flex-direction: row;
+      gap: 12px;
+      align-items: center;
+    }
+    .lens-swatch {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      flex: none;
+      box-shadow: inset 0 0 0 1px rgba(43, 39, 35, 0.15);
+    }
+    .opt-card-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .opt-card-label {
+      font-size: 14px;
+    }
+    .opt-card-sub {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+    .opt-summary {
+      margin-top: auto;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .opt-summary-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .summary-line {
+      font-size: 13px;
+      color: var(--text-3);
+    }
+    .summary-price {
+      font-family: var(--font-serif);
+      font-size: 40px;
+      line-height: 1;
+    }
+
+    .eyes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: clamp(40px, 6vw, 96px);
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+    .eye-col {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      align-items: center;
+    }
+    .eye-ring {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      padding: 14px;
+      background: linear-gradient(160deg, var(--surface-0), #efe7dc);
+      box-shadow: 0 50px 100px -50px rgba(140, 90, 50, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    }
+    .eye-scene {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      container-type: inline-size;
+      background: linear-gradient(180deg, var(--surface-5) 0%, #f3ece2 64%, #e6dacb 64%, #ece2d5 100%);
+    }
+    .eye-plane {
+      position: absolute;
+      inset: 0;
+      transition: filter 0.35s ease;
+    }
+    .street-window {
+      position: absolute;
+      left: 9%;
+      top: 14%;
+      width: 34%;
+      height: 42%;
+      border: 1.4cqw solid #faf6f0;
+      background: linear-gradient(180deg, #e5ebec, #f4efe6);
+      overflow: hidden;
+    }
+    .street-a {
+      position: absolute;
+      left: 8%;
+      bottom: 0;
+      width: 30%;
+      height: 62%;
+      background: #d9d6cf;
+    }
+    .street-b {
+      position: absolute;
+      left: 44%;
+      bottom: 0;
+      width: 22%;
+      height: 80%;
+      background: #cfcbc3;
+    }
+    .street-c {
+      position: absolute;
+      right: 6%;
+      bottom: 0;
+      width: 22%;
+      height: 50%;
+      background: #dcd7cf;
+    }
+    .street-sign {
+      position: absolute;
+      left: 12%;
+      right: 12%;
+      top: 12%;
+      padding: 1cqw 0;
+      background: var(--panel-blue);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 2.1cqw;
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+    .eye-chart {
+      position: absolute;
+      left: 52%;
+      top: 9%;
+      width: 36%;
+      height: 50%;
+      background: #fffefb;
+      box-shadow: 0 1cqw 3cqw rgba(110, 80, 50, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2cqw;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      color: #1f1c19;
+      line-height: 1;
+    }
+    .eye-chart span:nth-child(1) {
+      font-size: 7cqw;
+    }
+    .eye-chart span:nth-child(2) {
+      font-size: 4.8cqw;
+      letter-spacing: 0.5cqw;
+    }
+    .eye-chart span:nth-child(3) {
+      font-size: 3.6cqw;
+      letter-spacing: 0.4cqw;
+    }
+    .eye-chart span:nth-child(4) {
+      font-size: 2.7cqw;
+      letter-spacing: 0.3cqw;
+    }
+    .eye-chart span:nth-child(5) {
+      font-size: 2cqw;
+      letter-spacing: 0.25cqw;
+    }
+    .eye-chart span:nth-child(6) {
+      font-size: 1.5cqw;
+      letter-spacing: 0.2cqw;
+    }
+    .shelf {
+      position: absolute;
+      left: 5%;
+      right: 5%;
+      top: 63%;
+      height: 1.6cqw;
+      background: #cdb79d;
+    }
+    .shelf-books {
+      position: absolute;
+      left: 14%;
+      top: 47%;
+      height: 16%;
+      display: flex;
+      align-items: flex-end;
+      gap: 0.6cqw;
+    }
+    .book {
+      display: block;
+    }
+    .book-a {
+      width: 3.4cqw;
+      height: 100%;
+      background: var(--accent);
+    }
+    .book-b {
+      width: 2.8cqw;
+      height: 86%;
+      background: #8f9a82;
+    }
+    .book-c {
+      width: 3.8cqw;
+      height: 94%;
+      background: var(--ink);
+    }
+    .book-d {
+      width: 3cqw;
+      height: 78%;
+      background: #e0cdb4;
+    }
+    .shelf-vase {
+      position: absolute;
+      left: 44%;
+      top: 48.5%;
+      width: 9cqw;
+      height: 14.5%;
+      border-radius: 45% 45% 30% 30%;
+      background: linear-gradient(160deg, #f2e6d7, #d9c4ab);
+    }
+    .shelf-sphere {
+      position: absolute;
+      left: 62%;
+      top: 55%;
+      width: 8cqw;
+      height: 8cqw;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #d8896a, #a5553a);
+    }
+    .shelf-tag {
+      position: absolute;
+      left: 76%;
+      top: 56.5%;
+      padding: 0.6cqw 1.2cqw;
+      background: #fffefb;
+      font-family: var(--font-mono);
+      font-size: 1.8cqw;
+      color: var(--ink);
+    }
+    .reading-card {
+      position: absolute;
+      left: 22%;
+      width: 56%;
+      top: 73%;
+      height: 34%;
+      background: #fffefb;
+      transform: rotate(-3deg);
+      box-shadow: 0 -1cqw 4cqw rgba(110, 80, 50, 0.14);
+      padding: 3cqw 4cqw;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2cqw;
+    }
+    .reading-label {
+      font-family: var(--font-mono);
+      font-size: 1.7cqw;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+    }
+    .reading-text {
+      font-family: var(--font-serif);
+      font-size: 3cqw;
+      line-height: 1.25;
+      color: var(--ink);
+    }
+    .eye-vignette {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(ellipse 40% 26% at 30% 20%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 70%);
+      box-shadow: inset 0 0 6cqw rgba(110, 80, 50, 0.18);
+      pointer-events: none;
+    }
+    .eye-badge {
+      position: absolute;
+      top: 6%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--bg-alt);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--ink);
+      box-shadow: 0 10px 24px -12px rgba(110, 80, 50, 0.4);
+    }
+
+    .eye-controls {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .eye-controls-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .eye-name {
+      font-family: var(--font-serif);
+      font-size: 26px;
+    }
+    .eye-value {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      color: var(--ink);
+    }
+    .eye-slider {
+      width: 100%;
+      cursor: pointer;
+    }
+    .eye-scale {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--text-4);
+    }
+    .eye-sharpness-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-top: 6px;
+    }
+    .eye-sharpness-track {
+      flex: 1;
+      height: 3px;
+      border-radius: 3px;
+      background: var(--line);
+      overflow: hidden;
+    }
+    .eye-sharpness-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.35s ease;
+    }
+    .eye-sharpness-text {
+      font-size: 13px;
+      color: var(--text-3);
+      white-space: nowrap;
+    }
+    .eye-sharpness-text.is-sharp {
+      color: var(--accent);
+    }
+
+    .progressive {
+      margin-top: clamp(110px, 14vw, 180px);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: clamp(32px, 5vw, 72px);
+      align-items: center;
+    }
+    .progressive-text {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 380px;
+    }
+    .hint-mono {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--text-4);
+    }
+    .progressive-scene {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 32px;
+      overflow: hidden;
+      background: #f1e9de;
+      box-shadow: 0 60px 120px -60px rgba(140, 90, 50, 0.4);
+      container-type: inline-size;
+      cursor: crosshair;
+      grid-column: 1 / -1;
+    }
+    .prog-layer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #e9eef0 0%, #f3eee6 38%, #f1e9de 38%, #ece2d5 62%, #f7f2ea 62%);
+    }
+    .prog-layer--blur {
+      filter: blur(3px);
+    }
+    .prog-layer--sharp {
+      filter: blur(0px);
+      clip-path: ellipse(18% 32% at 32% 50%);
+      -webkit-mask-image: radial-gradient(ellipse 16% 20% at 32% 26%, #000 55%, transparent 100%),
+        radial-gradient(ellipse 5% 14% at 32% 50%, #000 45%, transparent 100%), radial-gradient(ellipse 10% 13% at 32% 74%, #000 50%, transparent 100%);
+      mask-image: radial-gradient(ellipse 16% 20% at 32% 26%, #000 55%, transparent 100%),
+        radial-gradient(ellipse 5% 14% at 32% 50%, #000 45%, transparent 100%), radial-gradient(ellipse 10% 13% at 32% 74%, #000 50%, transparent 100%);
+    }
+    .prog-street-sign {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 9%;
+      display: flex;
+      justify-content: center;
+      padding: 1.2cqw 3cqw;
+      background: var(--panel-blue);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 2.6cqw;
+      letter-spacing: 0.12em;
+      margin: 0 auto;
+      width: fit-content;
+    }
+    .prog-shops {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 24%;
+      display: flex;
+      justify-content: center;
+      gap: 4cqw;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 1.6cqw;
+      letter-spacing: 0.3em;
+      color: #4d5a60;
+    }
+    .prog-clock {
+      position: absolute;
+      left: 30%;
+      right: 30%;
+      top: 42%;
+      height: 16%;
+      background: var(--ink);
+      border-radius: 1cqw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.6cqw;
+      color: var(--bg);
+      font-family: var(--font-mono);
+      font-size: 1.4cqw;
+      letter-spacing: 0.1em;
+    }
+    .prog-clock-time {
+      font-family: var(--font-serif);
+      font-size: 3cqw;
+      letter-spacing: normal;
+    }
+    .prog-book {
+      position: absolute;
+      left: 26%;
+      right: 26%;
+      top: 67%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8cqw;
+      font-family: var(--font-serif);
+      color: var(--ink);
+      text-align: center;
+    }
+    .prog-book span:first-child {
+      font-size: 2.2cqw;
+    }
+    .prog-book-text {
+      font-size: 1.45cqw;
+      line-height: 1.5;
+    }
+    .prog-lens-circle {
+      position: absolute;
+      top: 18%;
+      height: 64%;
+      width: 36%;
+      left: 32%;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 0 0 1px rgba(178, 95, 62, 0.28), 0 40px 80px -30px rgba(110, 70, 40, 0.35);
+      background: radial-gradient(ellipse 40% 22% at 32% 18%, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 70%);
+      pointer-events: none;
+      transition: left 0.25s ease-out;
+    }
+    .prog-labels {
+      position: absolute;
+      left: 2.5cqw;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      padding: 3cqw 0;
+      font-family: var(--font-mono);
+      font-size: max(10px, 1.2cqw);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      pointer-events: none;
+    }
+
+    .atelier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+      gap: clamp(28px, 4vw, 72px);
+    }
+    .atelier-item {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .atelier-medal {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 45%, var(--surface-0) 0%, var(--surface-3) 62%, var(--surface-4) 100%);
+      box-shadow: 0 50px 100px -55px rgba(140, 90, 50, 0.5);
+      overflow: hidden;
+    }
+    .atelier-medal img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .atelier-text {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0 4%;
+    }
+    .atelier-text .section-head-note {
+      max-width: none;
+    }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      background: radial-gradient(ellipse 60% 90% at 80% 100%, rgba(241, 214, 190, 0.55), rgba(247, 243, 236, 0) 70%);
+    }
+    .footer-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: clamp(90px, 12vw, 150px) clamp(20px, 5vw, 64px) 40px;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(64px, 8vw, 110px);
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .footer-h2 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(64px, 10vw, 150px);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+    }
+    .footer-h2 em {
+      font-style: italic;
+    }
+    .footer-info {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      max-width: 340px;
+    }
+    .footer-info .btn {
+      align-self: flex-start;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    @media (max-width: 760px) {
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</Layout>
