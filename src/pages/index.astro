@@ -38,7 +38,7 @@ const eyes = [
     </div>
 
     <!-- NAV -->
-    <header class="nav">
+    <header class="nav" data-nav>
     <nav class="nav-inner">
       <a href="#top" class="logo">
         <span class="logo-dot"></span>
@@ -403,6 +403,28 @@ const eyes = [
   <script>
     import { initExperience } from "../scripts/experience";
     initExperience();
+
+    const nav = document.querySelector<HTMLElement>("[data-nav]");
+    let lastY = window.scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      ticking = false;
+      const y = window.scrollY;
+      if (y <= 100) nav?.classList.remove("nav--hidden");
+      else if (y > lastY) nav?.classList.add("nav--hidden");
+      else if (y < lastY) nav?.classList.remove("nav--hidden");
+      lastY = y;
+    };
+    addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(onScroll);
+        }
+      },
+      { passive: true },
+    );
   </script>
 
   <style is:global>
@@ -465,6 +487,11 @@ const eyes = [
       background: rgba(247, 243, 236, 0.82);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
+      transform: translateY(0);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav--hidden {
+      transform: translateY(-100%);
     }
     .nav-inner {
       max-width: 1320px;
