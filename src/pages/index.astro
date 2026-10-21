@@ -53,6 +53,7 @@ const eyes = [
     </nav>
   </header>
 
+  <main>
   <!-- HERO -->
   <section id="top" class="hero">
     <div class="hero-left">
@@ -252,6 +253,7 @@ const eyes = [
                 value="0"
                 id={`eyeSlider-${eye.id}`}
                 class="eye-slider"
+                aria-label={`Correction ${eye.label}`}
               />
               <div class="eye-scale">
                 <span>−4,00</span><span>0</span><span>+2,00</span>
@@ -376,6 +378,7 @@ const eyes = [
       </article>
     </div>
   </section>
+  </main>
 
   <!-- BOUTIQUE / FOOTER -->
   <footer id="boutique" class="footer">
