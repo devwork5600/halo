@@ -1,0 +1,31 @@
+{
+  "name": "Halo — Maison d'optique",
+  "short_name": "Halo",
+  "description": "Halo — maison d'optique. Montures façonnées à la main, verres taillés sur ordonnance. Composez votre monture et essayez vos verres, œil par œil.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f7f3ec",
+  "theme_color": "#f7f3ec",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
