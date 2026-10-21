@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://halo-hazel-alpha.vercel.app/sitemap-index.xml
