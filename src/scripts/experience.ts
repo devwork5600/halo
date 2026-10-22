@@ -467,7 +467,7 @@ function initCursor() {
   const ring = document.createElement("div");
   ring.style.cssText =
     "position:fixed;left:0;top:0;pointer-events:none;z-index:9999;width:44px;height:44px;margin:-22px 0 0 -22px;" +
-    "border-radius:999px;border:1px solid rgba(178,95,62,.55);background:rgba(255,255,255,.08);" +
+    "border-radius:22px;border:1px solid rgba(178,95,62,.55);background:rgba(255,255,255,.08);" +
     "backdrop-filter:blur(1.5px) saturate(1.3);-webkit-backdrop-filter:blur(1.5px) saturate(1.3);" +
     "box-shadow:inset 0 1px 1px rgba(255,255,255,.8),0 10px 30px -12px rgba(140,90,50,.35);" +
     "transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),margin .35s cubic-bezier(.2,.8,.2,1),border-radius .35s cubic-bezier(.2,.8,.2,1),background .3s,border-color .3s,opacity .3s;" +
@@ -518,7 +518,13 @@ function initCursor() {
     if (size) {
       ring.style.width = ring.style.height = `${size}px`;
       ring.style.margin = `${-size / 2}px 0 0 ${-size / 2}px`;
-      ring.style.borderRadius = "999px";
+      // Exactly half the box, not an oversized constant: a huge starting
+      // radius stays visually clamped to "fully round" for most of the
+      // shrink toward a small hover target (e.g. 8px for a square-cornered
+      // link), only visibly snapping to the real value right at the end —
+      // reads as the radius lagging behind width/height even though every
+      // property shares the same easing and duration.
+      ring.style.borderRadius = `${size / 2}px`;
     }
 
     document.querySelectorAll<HTMLElement>(MAGNETIC_SELECTOR).forEach((b) => {
