@@ -265,6 +265,16 @@ class GlassesConfigurator {
       m.iridescenceIOR = 1.6;
       m.needsUpdate = true;
     });
+
+    // WebGL ne compile/lie les programmes de shader qu'au premier vrai
+    // appel de rendu qui les utilise — pas à la création du matériau. Sans
+    // ce rendu "à blanc", ce coût (ponctuel mais bien réel pour ~6
+    // matériaux physiques + environnement PBR) tombait pile au moment où
+    // le canvas entrait dans le viewport et que start() lançait la boucle,
+    // d'où le petit à-coup au scroll. En le payant ici, juste après le
+    // chargement du modèle, il est déjà réglé bien avant que le visiteur
+    // n'arrive en scrollant sur cette section.
+    this.renderer.render(this.scene, this.camera);
   }
 
   start() {
