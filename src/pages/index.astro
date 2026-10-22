@@ -198,6 +198,20 @@ const eyes = [
       </div>
     </div>
 
+    <svg width="0" height="0" style="position: absolute">
+      <defs>
+        {
+          eyes.map((eye) =>
+            ["far", "mid", "near"].map((plane) => (
+              <filter id={`astig-${eye.id}-${plane}`}>
+                <feGaussianBlur id={`astig-${eye.id}-${plane}-blur`} stdDeviation="0 0" />
+              </filter>
+            )),
+          )
+        }
+      </defs>
+    </svg>
+
     <div class="eyes-grid">
       {
         eyes.map((eye) => (
@@ -243,20 +257,24 @@ const eyes = [
             <div class="eye-controls">
               <div class="eye-controls-head">
                 <span class="eye-name">{eye.label}</span>
-                <span id={`eyeValue-${eye.id}`} class="eye-value">±0,00 δ</span>
+                <span id={`eyeValue-${eye.id}`} class="eye-value">10/10</span>
+              </div>
+              <div class="eye-type-row" id={`eyeType-${eye.id}`}>
+                <button type="button" class="opt-pill eye-type-pill" data-type="presbytie" data-active="true">Presbytie</button>
+                <button type="button" class="opt-pill eye-type-pill" data-type="astigmate" data-active="false">Astigmatisme</button>
               </div>
               <input
                 type="range"
-                min="-4"
-                max="2"
-                step="0.25"
-                value="0"
+                min="0"
+                max="10"
+                step="1"
+                value="10"
                 id={`eyeSlider-${eye.id}`}
                 class="eye-slider"
                 aria-label={`Correction ${eye.label}`}
               />
               <div class="eye-scale">
-                <span>−4,00</span><span>0</span><span>+2,00</span>
+                <span>0</span><span>5</span><span>10</span>
               </div>
               <div class="eye-sharpness-row">
                 <div class="eye-sharpness-track">
@@ -1271,6 +1289,15 @@ const eyes = [
       font-family: var(--font-mono);
       font-size: 15px;
       color: var(--ink);
+    }
+    .eye-type-row {
+      display: flex;
+      gap: 8px;
+    }
+    .eye-type-pill {
+      font-size: 11px;
+      padding: 6px 14px;
+      letter-spacing: 0.04em;
     }
     .eye-slider {
       width: 100%;

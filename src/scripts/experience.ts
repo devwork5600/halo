@@ -69,8 +69,11 @@ const LENSES: LensDef[] = [
   { id: "bleu", label: "lumière bleue", hex: 0xf3e9c8, op: 0.2, add: 40, irid: true },
 ];
 
-const PRESCRIPTION_OD = -1.5;
-const PRESCRIPTION_OG = -2.25;
+// Échelle d'acuité visuelle en dixièmes (10/10 = vision parfaite, 0/10 = ne
+// voit rien) — plus parlante que la dioptrie pour un public non spécialiste,
+// et c'est l'unité que les gens citent réellement ("je vois 8 à droite").
+const PRESCRIPTION_OD = 8;
+const PRESCRIPTION_OG = 10;
 
 class GlassesConfigurator {
   private renderer: THREE.WebGLRenderer;
@@ -293,9 +296,8 @@ class GlassesConfigurator {
   }
 }
 
-function formatDiopter(v: number): string {
-  const sign = v > 0 ? "+" : v < 0 ? "−" : "±";
-  return `${sign}${Math.abs(v).toFixed(2).replace(".", ",")} δ`;
+function formatAcuity(v: number): string {
+  return `${v}/10`;
 }
 
 async function initConfigurator() {
@@ -370,29 +372,44 @@ async function initConfigurator() {
   if (viewerLabelEl) viewerLabelEl.textContent = "Vue 360° · glisser pour tourner";
 }
 
+type EyeType = "presbytie" | "astigmate";
+const PLANE_BLUR: Record<"far" | "mid" | "near", number> = { far: 1.6, mid: 1.0, near: 0.5 };
+
 function initVision() {
   const eyes = [
     { id: "od", target: PRESCRIPTION_OD },
     { id: "og", target: PRESCRIPTION_OG },
   ];
+  const eyeType: Record<string, EyeType> = { od: "presbytie", og: "presbytie" };
 
   function updateEye(id: string, target: number) {
     const slider = document.getElementById(`eyeSlider-${id}`) as HTMLInputElement | null;
     if (!slider) return;
     const value = parseFloat(slider.value);
     const error = Math.abs(value - target);
-    const farBlur = (error * 2.6).toFixed(2);
-    const midBlur = (error * 1.7).toFixed(2);
-    const nearBlur = (error * 0.9).toFixed(2);
-    const sharpness = Math.max(0, Math.round(100 - error * 38));
-    const isSharp = error < 0.13;
+    const sharpness = Math.max(0, Math.round(100 - error * 22));
+    const isSharp = error === 0;
+    const astigmate = eyeType[id] === "astigmate";
 
-    document.querySelectorAll<HTMLElement>(`[data-plane="far"][data-eye="${id}"]`).forEach((el) => (el.style.filter = `blur(${farBlur}px)`));
-    document.querySelectorAll<HTMLElement>(`[data-plane="mid"][data-eye="${id}"]`).forEach((el) => (el.style.filter = `blur(${midBlur}px)`));
-    document.querySelectorAll<HTMLElement>(`[data-plane="near"][data-eye="${id}"]`).forEach((el) => (el.style.filter = `blur(${nearBlur}px)`));
+    (Object.keys(PLANE_BLUR) as Array<keyof typeof PLANE_BLUR>).forEach((plane) => {
+      const amount = error * PLANE_BLUR[plane];
+      document.querySelectorAll<HTMLElement>(`[data-plane="${plane}"][data-eye="${id}"]`).forEach((el) => {
+        if (astigmate) {
+          // L'astigmatisme étire le flou dans un axe (contrairement au flou
+          // rond uniforme de la myopie/presbytie) : rayon horizontal très
+          // supérieur au vertical, via un filtre SVG plutôt que `blur()`
+          // CSS qui ne sait produire qu'un flou gaussien symétrique.
+          const blurEl = document.getElementById(`astig-${id}-${plane}-blur`);
+          blurEl?.setAttribute("stdDeviation", `${(amount * 1.9).toFixed(2)} ${(amount * 0.3).toFixed(2)}`);
+          el.style.filter = `url(#astig-${id}-${plane})`;
+        } else {
+          el.style.filter = `blur(${amount.toFixed(2)}px)`;
+        }
+      });
+    });
 
     const valueEl = document.getElementById(`eyeValue-${id}`);
-    if (valueEl) valueEl.textContent = formatDiopter(value);
+    if (valueEl) valueEl.textContent = formatAcuity(value);
 
     const barEl = document.getElementById(`eyeBar-${id}`);
     if (barEl) barEl.style.width = `${sharpness}%`;
@@ -407,6 +424,18 @@ function initVision() {
   eyes.forEach(({ id, target }) => {
     const slider = document.getElementById(`eyeSlider-${id}`) as HTMLInputElement | null;
     slider?.addEventListener("input", () => updateEye(id, target));
+
+    document.querySelectorAll<HTMLButtonElement>(`#eyeType-${id} .eye-type-pill`).forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const type = btn.dataset.type as EyeType;
+        eyeType[id] = type;
+        document.querySelectorAll<HTMLButtonElement>(`#eyeType-${id} .eye-type-pill`).forEach((b) => {
+          b.dataset.active = String(b === btn);
+        });
+        updateEye(id, target);
+      });
+    });
+
     updateEye(id, target);
   });
 
@@ -420,7 +449,7 @@ function initVision() {
   document.getElementById("resetBtn")?.addEventListener("click", () => {
     eyes.forEach(({ id, target }) => {
       const slider = document.getElementById(`eyeSlider-${id}`) as HTMLInputElement | null;
-      if (slider) slider.value = "0";
+      if (slider) slider.value = "10";
       updateEye(id, target);
     });
   });
