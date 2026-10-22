@@ -23,8 +23,8 @@ const lenses = [
 ];
 
 const eyes = [
-  { id: "od", label: "Œil droit", code: "OD" },
-  { id: "og", label: "Œil gauche", code: "OG" },
+  { id: "od", label: "Œil droit", code: "OD", acuity: 8 },
+  { id: "og", label: "Œil gauche", code: "OG", acuity: 10 },
 ];
 ---
 
@@ -188,11 +188,10 @@ const eyes = [
       </div>
       <div class="vision-intro">
         <p class="section-head-note">
-          Comme dans le fauteuil de l'opticien : réglez chaque verre jusqu'à ce que la scène se pose. La correction
-          est cachée — à vous de la trouver.
+          Réglez l'acuité de chaque œil, comme vous la connaissez. À 10/10 la scène est nette ; en dessous, elle se
+          brouille — plus la valeur baisse, plus le flou se creuse.
         </p>
         <div class="vision-actions">
-          <button type="button" id="revealBtn" class="btn btn-solid btn-small">Révéler la correction</button>
           <button type="button" id="resetBtn" class="btn btn-ghost btn-small">Réinitialiser</button>
         </div>
       </div>
@@ -257,7 +256,7 @@ const eyes = [
             <div class="eye-controls">
               <div class="eye-controls-head">
                 <span class="eye-name">{eye.label}</span>
-                <span id={`eyeValue-${eye.id}`} class="eye-value">10/10</span>
+                <span id={`eyeValue-${eye.id}`} class="eye-value">{eye.acuity}/10</span>
               </div>
               <div class="eye-type-row" id={`eyeType-${eye.id}`}>
                 <button type="button" class="opt-pill eye-type-pill" data-type="presbytie" data-active="true">Presbytie</button>
@@ -268,7 +267,7 @@ const eyes = [
                 min="0"
                 max="10"
                 step="1"
-                value="10"
+                value={eye.acuity}
                 id={`eyeSlider-${eye.id}`}
                 class="eye-slider"
                 aria-label={`Correction ${eye.label}`}
@@ -278,9 +277,15 @@ const eyes = [
               </div>
               <div class="eye-sharpness-row">
                 <div class="eye-sharpness-track">
-                  <div id={`eyeBar-${eye.id}`} class="eye-sharpness-fill" style="width: 46%" />
+                  <div id={`eyeBar-${eye.id}`} class="eye-sharpness-fill" style={`width: ${eye.acuity * 10}%`} />
                 </div>
-                <span id={`eyeText-${eye.id}`} class="eye-sharpness-text">Netteté 46 %</span>
+                <span
+                  id={`eyeText-${eye.id}`}
+                  class="eye-sharpness-text"
+                  class:list={{ "is-sharp": eye.acuity === 10 }}
+                >
+                  {eye.acuity === 10 ? "Mise au point" : `Netteté ${eye.acuity * 10} %`}
+                </span>
               </div>
             </div>
           </div>

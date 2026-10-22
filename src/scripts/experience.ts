@@ -69,12 +69,6 @@ const LENSES: LensDef[] = [
   { id: "bleu", label: "lumière bleue", hex: 0xf3e9c8, op: 0.2, add: 40, irid: true },
 ];
 
-// Échelle d'acuité visuelle en dixièmes (10/10 = vision parfaite, 0/10 = ne
-// voit rien) — plus parlante que la dioptrie pour un public non spécialiste,
-// et c'est l'unité que les gens citent réellement ("je vois 8 à droite").
-const PRESCRIPTION_OD = 8;
-const PRESCRIPTION_OG = 10;
-
 class GlassesConfigurator {
   private renderer: THREE.WebGLRenderer;
   private scene: THREE.Scene;
@@ -376,23 +370,23 @@ type EyeType = "presbytie" | "astigmate";
 const PLANE_BLUR: Record<"far" | "mid" | "near", number> = { far: 1.6, mid: 1.0, near: 0.5 };
 
 function initVision() {
-  const eyes = [
-    { id: "od", target: PRESCRIPTION_OD },
-    { id: "og", target: PRESCRIPTION_OG },
-  ];
+  const eyeIds = ["od", "og"];
   const eyeType: Record<string, EyeType> = { od: "presbytie", og: "presbytie" };
 
-  function updateEye(id: string, target: number) {
+  // Pas de prescription cachée à deviner : le curseur EST l'acuité de l'œil
+  // (ce que le visiteur annonce, "je vois 8 à droite"), et le flou en
+  // découle directement — net à 10/10, de plus en plus flou en dessous.
+  function updateEye(id: string) {
     const slider = document.getElementById(`eyeSlider-${id}`) as HTMLInputElement | null;
     if (!slider) return;
     const value = parseFloat(slider.value);
-    const error = Math.abs(value - target);
-    const sharpness = Math.max(0, Math.round(100 - error * 22));
-    const isSharp = error === 0;
+    const deficit = 10 - value;
+    const sharpness = Math.round(value * 10);
+    const isSharp = deficit === 0;
     const astigmate = eyeType[id] === "astigmate";
 
     (Object.keys(PLANE_BLUR) as Array<keyof typeof PLANE_BLUR>).forEach((plane) => {
-      const amount = error * PLANE_BLUR[plane];
+      const amount = deficit * PLANE_BLUR[plane];
       document.querySelectorAll<HTMLElement>(`[data-plane="${plane}"][data-eye="${id}"]`).forEach((el) => {
         if (astigmate) {
           // L'astigmatisme étire le flou dans un axe (contrairement au flou
@@ -421,9 +415,9 @@ function initVision() {
     }
   }
 
-  eyes.forEach(({ id, target }) => {
+  eyeIds.forEach((id) => {
     const slider = document.getElementById(`eyeSlider-${id}`) as HTMLInputElement | null;
-    slider?.addEventListener("input", () => updateEye(id, target));
+    slider?.addEventListener("input", () => updateEye(id));
 
     document.querySelectorAll<HTMLButtonElement>(`#eyeType-${id} .eye-type-pill`).forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -432,25 +426,18 @@ function initVision() {
         document.querySelectorAll<HTMLButtonElement>(`#eyeType-${id} .eye-type-pill`).forEach((b) => {
           b.dataset.active = String(b === btn);
         });
-        updateEye(id, target);
+        updateEye(id);
       });
     });
 
-    updateEye(id, target);
+    updateEye(id);
   });
 
-  document.getElementById("revealBtn")?.addEventListener("click", () => {
-    eyes.forEach(({ id, target }) => {
-      const slider = document.getElementById(`eyeSlider-${id}`) as HTMLInputElement | null;
-      if (slider) slider.value = String(target);
-      updateEye(id, target);
-    });
-  });
   document.getElementById("resetBtn")?.addEventListener("click", () => {
-    eyes.forEach(({ id, target }) => {
+    eyeIds.forEach((id) => {
       const slider = document.getElementById(`eyeSlider-${id}`) as HTMLInputElement | null;
       if (slider) slider.value = "10";
-      updateEye(id, target);
+      updateEye(id);
     });
   });
 }
